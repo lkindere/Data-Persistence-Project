@@ -15,3 +15,4 @@
 
 - [x] Create start menu
 - [x] Saving data between scenes
+- [x] Speed modifier functionality

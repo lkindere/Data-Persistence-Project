@@ -12,10 +12,14 @@ public class PersistenceManager : MonoBehaviour
         FAST = 3
     }
     public Dictionary<E_speedModifiers, float> speedModifiers = new() {
-        {E_speedModifiers.SLOW, 0.5f},
+        {E_speedModifiers.SLOW, 0.67f},
         {E_speedModifiers.MEDIUM, 1.0f},
         {E_speedModifiers.FAST, 1.5f},
     };
+
+    public static float GetSpeedModifier() {
+        return Instance.speedModifiers[Instance.data.speedModifier];
+    }
 
     private void Awake() {
         if (Instance != null) {

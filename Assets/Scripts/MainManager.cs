@@ -15,6 +15,7 @@ public class MainManager : MonoBehaviour
     private int m_Points;
     
     private bool m_GameOver = false;
+    private float speedModifier;
 
     
     // Start is called before the first frame update
@@ -34,6 +35,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        speedModifier = PersistenceManager.GetSpeedModifier();
     }
 
     private void Update()
@@ -48,7 +51,7 @@ public class MainManager : MonoBehaviour
                 forceDir.Normalize();
 
                 Ball.transform.SetParent(null);
-                Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+                Ball.AddForce(forceDir * 2.0f * speedModifier, ForceMode.VelocityChange);
             }
         }
         else if (m_GameOver)
