@@ -20,18 +20,31 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Button exitButton;
     private Color defaultColor; 
     private Color selectColor;
-    private float speed;
-    private enum E_scenes : int {
+    private PersistenceManager.E_speedModifiers speedModifier;
+    public enum E_scenes : int {
         START_MENU = 0,
         HIGH_SCORES = 1,
         MAIN = 2
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         defaultColor = new(1.0f, 1.0f, 1.0f);
         selectColor = new(0.7f, 0.7f, 1.0f);
+
+        nameInput.text = PersistenceManager.Instance.data.playerName;
+        switch (PersistenceManager.Instance.data.speedModifier) {
+            case PersistenceManager.E_speedModifiers.SLOW: 
+                SetSlow();
+                break;
+            case PersistenceManager.E_speedModifiers.MEDIUM:
+                SetMedium();
+                break;
+            case PersistenceManager.E_speedModifiers.FAST:
+                SetFast();
+                break;
+        }
+
     }
 
     private void SetButtonColors(int index) {
@@ -52,12 +65,15 @@ public class MenuManager : MonoBehaviour
             StartCoroutine(HideWarning());
             return;
         }
-        if (speed == 0.0f) {
+        if (speedModifier == 0) {
             warningText.text = "Speed not selected!";
             warningText.gameObject.SetActive(true);
             StartCoroutine(HideWarning());
             return;
         }
+        
+        PersistenceManager.Instance.data.speedModifier = speedModifier;
+        PersistenceManager.Instance.data.playerName = nameInput.text;
         SceneManager.LoadScene((int)E_scenes.MAIN);
     }
 
@@ -80,17 +96,17 @@ public class MenuManager : MonoBehaviour
     }
 
     public void SetSlow() {
-        speed = 0.5f;
+        speedModifier = PersistenceManager.E_speedModifiers.SLOW;
         SetButtonColors(0);
     }
 
     public void SetMedium() {
-        speed = 1.0f;
+        speedModifier = PersistenceManager.E_speedModifiers.MEDIUM;
         SetButtonColors(1);
     }
 
     public void SetFast() {
-        speed = 1.5f;
+        speedModifier = PersistenceManager.E_speedModifiers.FAST;
         SetButtonColors(2);
     }
 }
