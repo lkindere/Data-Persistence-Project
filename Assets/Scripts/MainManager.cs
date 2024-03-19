@@ -9,6 +9,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text bestScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -37,6 +38,7 @@ public class MainManager : MonoBehaviour
         }
 
         speedModifier = PersistenceManager.GetSpeedModifier();
+        UpdateBestScore();
     }
 
     private void Update()
@@ -73,6 +75,23 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+
+        PersistenceManager.Instance.UpdateHighscores(m_Points);
+        UpdateBestScore();
+    }
+
+    private void UpdateBestScore() {
+        if (PersistenceManager.Instance == null)
+            return;
+            
+        string speedModifierName = PersistenceManager.Instance.data.speedModifier.ToString();
+        PersistenceManager.Highscore highscore = PersistenceManager.Instance.GetBestScore();
+
+        bestScoreText.text = speedModifierName + " Best Score : ";
+        if (highscore.score > 0)
+            bestScoreText.text += highscore.name + " : " + highscore.score;
+        else
+            bestScoreText.text += highscore.score;
     }
 
     public void StartMenu() {

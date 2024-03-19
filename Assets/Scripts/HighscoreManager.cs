@@ -10,16 +10,12 @@ public class HighscoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Placeholder for testing
-        Highscore[] slowScores = new Highscore[10];
-        for (int i = 0; i < slowScores.Length; ++i) {
-            slowScores[i].score = 10 - i;
-            slowScores[i].name = "Bob";
-        }
-        SetText(slowText, slowScores);
+        SetText(slowText, PersistenceManager.Instance.data.slowHighscores);
+        SetText(mediumText, PersistenceManager.Instance.data.mediumHighscores);
+        SetText(fastText, PersistenceManager.Instance.data.fastHighscores);
     }
 
-    private void SetText(TextMeshProUGUI text, Highscore[] scores) {
+    private void SetText(TextMeshProUGUI text, PersistenceManager.Highscore[] scores) {
         text.text = string.Empty;
 
         for (int i = 0; i < scores.Length; ++i) {
@@ -30,11 +26,5 @@ public class HighscoreManager : MonoBehaviour
 
     public void StartMenu() {
         SceneManager.LoadScene((int)MenuManager.E_scenes.START_MENU);
-    }
-
-    // Placeholder for testing
-    struct Highscore {
-        public string name;
-        public int score;
     }
 }
