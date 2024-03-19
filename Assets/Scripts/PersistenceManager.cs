@@ -18,6 +18,9 @@ public class PersistenceManager : MonoBehaviour
     };
 
     public static float GetSpeedModifier() {
+        if (Instance == null)
+            return 1.0f;
+        
         return Instance.speedModifiers[Instance.data.speedModifier];
     }
 
