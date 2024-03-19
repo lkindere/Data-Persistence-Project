@@ -32,6 +32,8 @@ public class MenuManager : MonoBehaviour
         defaultColor = new(1.0f, 1.0f, 1.0f);
         selectColor = new(0.7f, 0.7f, 1.0f);
 
+        PersistenceManager.Instance.Load();
+
         nameInput.text = PersistenceManager.Instance.data.playerName;
         switch (PersistenceManager.Instance.data.speedModifier) {
             case PersistenceManager.E_speedModifiers.SLOW: 

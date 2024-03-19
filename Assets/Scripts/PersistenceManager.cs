@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
 
 public class PersistenceManager : MonoBehaviour
 {
@@ -66,6 +67,23 @@ public class PersistenceManager : MonoBehaviour
             E_speedModifiers.SLOW => Instance.data.slowHighscores[0],
             _ => new Highscore(),
         };
+    }
+
+    public void Save() {
+        string path = Application.persistentDataPath + "/save.json";
+        string json = JsonUtility.ToJson(Instance.data);
+
+        File.WriteAllText(path, json);
+    }
+
+    public void Load() {
+        string path = Application.persistentDataPath + "/save.json";
+        
+        if (File.Exists(path)) {
+            string json = File.ReadAllText(path);
+
+            Instance.data = JsonUtility.FromJson<SaveData>(json);
+        }
     }
 
     [System.Serializable]
